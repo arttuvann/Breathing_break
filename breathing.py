@@ -198,4 +198,4 @@ if __name__ == '__main__':
     if args.duration == None:
       args.duration = 60
 
-    main(args.type, int(args.duration)) # TODO: also give main-function the duration and number of cycles.
+    main(args.type, int(args.duration))
