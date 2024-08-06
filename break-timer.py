@@ -73,6 +73,6 @@ if __name__ == '__main__':
 
     # Error handling if duration is not set
     if args.duration == None:
-      args.duration = 60
+      args.duration = 12
 
     main(args.type, int(args.duration))
