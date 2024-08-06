@@ -48,7 +48,7 @@ def seconds_countdown(t):
   for i in range(t,0,-1):
     print(f"{i}", end="\r", flush=True)
     time.sleep(1)
-  print("\r", end="")
+  print("Cycle finished.", end="\r", flush=True)
 
 def breathe_box(duration_seconds):
   """
