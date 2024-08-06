@@ -7,10 +7,10 @@ Distraction free experience, just start the script from command line with desire
 Author: Arttu Vanninen
 License: CC0 1.0 Universal
 Date created: 2024-08-04
-Date modified: 2024-08-04
+Date modified: 2024-08-06
 
--t or --type for type of exercise (4-7-8, box or equal breathing)
--d or --duration for duration of exercise in seconds (will be fixed by the script based on number of breathing cycles)
+-t or --type for type of break (feature not finished)
+-d or --duration for duration of break in minutes
 
 Happy break-taking!
 
@@ -58,10 +58,11 @@ def break_timer(t_min):
     print("Taking a break until :", hhmm_timestamp(t_min))
     mmss_countdown(t_min)
     print("##########\nFinished break. Happy working :)")
+    input("Press Enter to continue...")
 
 def main(type, duration):
-    hhmm_timestamp(5)
-    break_timer(5)
+    hhmm_timestamp(duration)
+    break_timer(duration)
 
 
 if __name__ == '__main__':
