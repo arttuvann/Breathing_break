@@ -18,6 +18,50 @@ Happy break-taking!
 
 import time
 import argparse
+import datetime
+
+break_length = 2
+
+def hhmm_timestamp(delta_min=0):
+    """
+    Print timestamp for function runtime or defined delta in minutes
+    """
+    delta_sec = delta_min * 60
+
+    current_datetime = datetime.datetime.now()
+    timestamp = current_datetime.timestamp() + delta_sec
+
+    formatted_timestamp = datetime.datetime.fromtimestamp(timestamp).strftime("%H:%M")
+    return formatted_timestamp
+
+def mmss_countdown(t_min):
+  """
+  Print countdown for preparation.
+
+  Args:
+    t_min: minutes to count down from (length of break)
+  """
+  t = t_min * 60 # t is time in seconds
+
+  while t > -1: 
+       mins, secs = divmod(t, 60) 
+       timer = 'On a break... {:02d}:{:02d}'.format(mins, secs) 
+       print(timer, end="\r") 
+       time.sleep(1) 
+       t -= 1
+
+  print("\n")
+
+def break_timer(t_min):
+    """
+    Wrapper function for taking a break. Prints header and footer and
+    possible extra information.
+    """
+    print("##########")
+    print("Taking a break until :", hhmm_timestamp(t_min))
+    mmss_countdown(t_min)
+    print("##########\nFinished break. Happy working :)")
+    input("Press Enter to continue...")
 
 def prepare_countdown(t):
   """
@@ -35,7 +79,22 @@ def prepare_countdown(t):
 
   print("\n")
 
-def seconds_countdown(t):
+def seconds_countdown_next_phase(t):
+  """
+  Print countdown for moving to next phase in program.
+
+  Args:
+    t: seconds to count down from
+  """
+  # debug
+  #print("went to seconds_countdown_next_phase() function")
+
+  for i in range(t,0,-1):
+    print(f"{i}", end="\r", flush=True)
+    time.sleep(1)
+  print("Moving on...", end="\r", flush=True)
+
+def seconds_countdown_breathing(t):
   """
   Print countdown for breathing exercise phases.
 
@@ -43,7 +102,7 @@ def seconds_countdown(t):
     t: seconds to count down from
   """
   # debug
-  #print("went to seconds_countdown() function")
+  #print("went to seconds_countdown_breathing() function")
 
   for i in range(t,0,-1):
     print(f"{i}", end="\r", flush=True)
@@ -78,20 +137,20 @@ def breathe_box(duration_seconds):
     print("##########")
     # Inhale
     print(f"Cycle : {c+1}/{cycles}\nInhale silently through your nose for a count of {inhale_time}...")
-    seconds_countdown(inhale_time)
+    seconds_countdown_breathing(inhale_time)
 
     # Hold
     print(f"Hold for a count of {hold_time}...")
 
-    seconds_countdown(hold_time)
+    seconds_countdown_breathing(hold_time)
 
     # Exhale
     print(f"Exhale through your nose for a count of {exhale_time}...")
-    seconds_countdown(exhale_time)
+    seconds_countdown_breathing(exhale_time)
 
     # Hold
     print(f"Hold your breath for a count of {hold_time}...")
-    seconds_countdown(hold_time)
+    seconds_countdown_breathing(hold_time)
     print("\n")
 
 def breathe_equal(duration_seconds):
@@ -121,11 +180,11 @@ def breathe_equal(duration_seconds):
     print("##########")
     # Inhale
     print(f"Cycle : {c+1}/{cycles}\nInhale silently through your nose for a count of {inhale_time}..")
-    seconds_countdown(inhale_time)
+    seconds_countdown_breathing(inhale_time)
 
     # Exhale
     print(f"Exhale through your nose for a count of {exhale_time}...")
-    seconds_countdown(exhale_time)
+    seconds_countdown_breathing(exhale_time)
 
     # Hold
     #print(f"Hold your breath for a count of {hold_time}...")
@@ -159,15 +218,15 @@ def breathe_478(duration_seconds):
     print("\n##########")
     # Inhale
     print(f"Cycle : {_+1}/{cycles}\nInhale silently through your nose for a count of {inhale_time}...")
-    seconds_countdown(inhale_time)
+    seconds_countdown_breathing(inhale_time)
 
     # Hold
     print(f"Hold your breath for a count of {hold_time}...")
-    seconds_countdown(hold_time)
+    seconds_countdown_breathing(hold_time)
 
     # Exhale
     print(f"Exhale completely through your mouth with a whoosh sound for a count of {exhale_time}...")
-    seconds_countdown(exhale_time)
+    seconds_countdown_breathing(exhale_time)
 
 
 
@@ -186,7 +245,10 @@ def main(type, duration):
     breathe_box(60)
 
 
-  print("##########\nFinished breathing exercise. Feel free to repeat!")
+  print(f"##########\nFinished breathing exercise. Starting a {break_length}-minute break in...")
+  seconds_countdown_next_phase(5)
+
+  break_timer(break_length)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Do breathing exercises using Python.')
